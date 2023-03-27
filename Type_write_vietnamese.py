@@ -15,5 +15,5 @@ def type(text: str):
         pyautogui.hotkey("ctrl", "v")
 
 
-type("Vũ Minh Anh")
+# type("Vũ Minh Anh")
 

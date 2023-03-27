@@ -2,6 +2,7 @@ import pyautogui
 from PIL import Image,ImageDraw,ImageTk,ImageFont
 import tkinter as tk
 from pynput import keyboard
+from pynput.keyboard import Key,Controller
 from speech_to_text import get_audio, speak, get_text, get_number
 import os
 import playsound
@@ -25,7 +26,7 @@ from time import strftime
 from gtts import gTTS
 from youtube_search import YoutubeSearch
 from mouse_grid_class import Mouse_Grid
-
+import Type_write_vietnamese
 
 def speech_number():
     print("Bot: Hãy cho tôi số của ô bạn muốn chọn")
@@ -61,7 +62,8 @@ def handle_text(text,mouse_grid,root,grid_size):
         cell_number = get_number(text)
         if (cell_number < 1 or cell_number > grid_size * grid_size):
             print("Invalid cell number")
-            return
+            root.destroy()
+            return 0
 
         x = (cell_number - 1) % grid_size
         y = (cell_number - 1) // grid_size
@@ -82,13 +84,40 @@ def handle_text(text,mouse_grid,root,grid_size):
     elif "chọn chuột trái" in text:
         root.destroy()
         pyautogui.click(mouse_grid.mouse_location_x, mouse_grid.mouse_location_y, clicks=1, interval=0.0, button='left')
+        return 0
 
-
-    elif "chọn" in text:
-        pass
+    elif "chọn chuột phải" in text:
+        root.destroy()
+        pyautogui.click(mouse_grid.mouse_location_x, mouse_grid.mouse_location_y, clicks=1, interval=0.0, button='right')
+        return 0
+    
+    elif "click chuột" in text:
+        root.destroy()
+        pyautogui.click(mouse_grid.mouse_location_x, mouse_grid.mouse_location_y, clicks=2, interval=0.0, button='left')
+        return 0
+    
+    elif "cuộn lên" in text:
+        root.destroy()
+        pyautogui.scroll(500)
+        return 0
+    
+    elif "cuộn xuống" in text:
+        root.destroy()
+        pyautogui.scroll(-500)
+        return 0
+    
+    elif "nhập" in text:
+        root.destroy()
+        content = text.split("nhập",1)[1]
+        Type_write_vietnamese.type(content)
+        return 0
     
     elif "vẽ lại" in text:
         return -1
+    elif "thoát" in text:
+        root.destroy()
+        return SystemExit(0)
+    return -2
 
 if __name__ == "__main__":
     grid_size = 3
@@ -118,7 +147,11 @@ if __name__ == "__main__":
         if check_redraw == -1:
             root.destroy()
             mouse_grid = Mouse_Grid(grid_size)
-        
+        if check_redraw == -2:
+            print("Bot: Tôi không hiểu ý bạn")
+            root.destroy()
+            # break
+
         # check_onclick = _oneclick()
         # if (check_onclick == 1):
         #     root.destroy()
