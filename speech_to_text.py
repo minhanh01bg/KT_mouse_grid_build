@@ -84,6 +84,8 @@ def get_text():
     stop()
     return 0
 # get_text()
+
+
 def assistant():
     speak("Xin chào, bạn tên là gì nhỉ?")
     name = get_text()

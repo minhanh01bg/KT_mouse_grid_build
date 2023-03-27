@@ -38,6 +38,8 @@ class Mouse_Grid:
         self.old_x, self.old_y = 0, 0
         self.draw_grid()
         self.root = None
+        self.mouse_location_x = 0
+        self.mouse_location_y = 0
         
     def draw_grid(self):
         for i in range(self.grid_size):
@@ -51,8 +53,8 @@ class Mouse_Grid:
         self.new_grid_x = self.new_grid_x // 3
         self.new_grid_y = self.new_grid_y // 3
         print(self.new_grid_x, self.new_grid_y)
-        for i in range(grid_size):
-            for j in range(grid_size):
+        for i in range(self.grid_size):
+            for j in range(self.grid_size):
                 x = i * self.new_grid_x + self.location_x
                 y = j * self.new_grid_y + self.location_y
                 # x = i * self.new_grid_x
@@ -60,7 +62,10 @@ class Mouse_Grid:
                 self.draw.rectangle((x, y, x + self.new_grid_x, y + self.new_grid_y), outline=(0, 0, 0, 255))
                 # self.draw.text((x, y), str(j * grid_size + i + 1), fill=(0, 0, 0, 255), font= ImageFont.truetype("arial.ttf", 10))
         return self.new_grid_x, self.new_grid_y
-    
+    def update_mouse_location(self,target_x,target_y):
+        self.mouse_location_x = target_x
+        self.mouse_location_y = target_y
+
     def update_location(self, x, y):
         self.location_x = self.location_x + x * self.new_grid_x
         self.location_y = self.location_y + y * self.new_grid_y
