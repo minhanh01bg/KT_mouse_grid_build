@@ -83,8 +83,96 @@ def get_text():
     time.sleep(2)
     stop()
     return 0
-# get_text()
 
+def current_weather():
+    speak("Bạn muốn xem thời tiết ở đâu ạ.")
+    ow_url = "http://api.openweathermap.org/data/2.5/weather?"
+    city = get_text()
+    if not city:
+        pass
+    # api_key = "fe8d8c65cf345889139d8e545f57819a"
+    api_key = "ce7491f834dcb997dc573482d7837bba"
+    call_url = ow_url + "appid=" + api_key + "&q=" + city + "&units=metric"
+    response = requests.get(call_url)
+    data = response.json()
+    if data["cod"] != "404":
+        city_res = data["main"]
+        current_temperature = city_res["temp"]
+        current_pressure = city_res["pressure"]
+        current_humidity = city_res["humidity"]
+        suntime = data["sys"]
+        sunrise = datetime.datetime.fromtimestamp(suntime["sunrise"])
+        sunset = datetime.datetime.fromtimestamp(suntime["sunset"])
+        wthr = data["weather"]
+        weather_description = wthr[0]["description"]
+        now = datetime.datetime.now()
+        content = """
+        Hôm nay là ngày {day} tháng {month} năm {year}
+        Mặt trời mọc vào {hourrise} giờ {minrise} phút
+        Mặt trời lặn vào {hourset} giờ {minset} phút
+        Nhiệt độ trung bình là {temp} độ C
+        Áp suất không khí là {pressure} héc tơ Pascal
+        Độ ẩm là {humidity}%
+        Trời hôm nay quang mây. Dự báo mưa rải rác ở một số nơi.""".format(day = now.day,month = now.month, year= now.year, hourrise = sunrise.hour, minrise = sunrise.minute,
+                                                                           hourset = sunset.hour, minset = sunset.minute, 
+                                                                           temp = current_temperature, pressure = current_pressure, humidity = current_humidity)
+        print(content)
+        time.sleep(20)
+    else:
+        print("Không tìm thấy địa chỉ của bạn")
+
+def play_music():
+    print("Bạn muốn nghe bài hát gì ạ.")
+    mysong = get_text()
+    while True:
+        result = YoutubeSearch(mysong, max_results=10).to_dict()
+        if result:
+            break
+        
+    url = "https://www.youtube.com" + result[0]["channel_link"]
+    webbrowser.open(url)
+    print("Đang phát bài hát " + mysong)
+
+def read_news():
+    print("Bạn muốn đọc báo về gì")
+    
+    queue = get_text()
+    params = {
+        # 'apiKey': '30d02d187f7140faacf9ccd27a1441ad',
+        'apiKey': 'f77bb94ff7b24fd7a2031230edf0f017',
+        "q": queue,
+    }
+    api_result = requests.get('http://newsapi.org/v2/top-headlines?', params)
+    api_response = api_result.json()
+    print("Tin tức")
+
+    for number, result in enumerate(api_response['articles'], start=1):
+        print(f"""Tin {number}:\nTiêu đề: {result['title']}\nTrích dẫn: {result['description']}\nLink: {result['url']}
+    """)
+        if number <= 3:
+            webbrowser.open(result['url'])
+
+def get_time(text):
+    now = datetime.datetime.now()
+    if "giờ" in text:
+        speak("Bây giờ là %d giờ %d phút" % (now.hour, now.minute))
+    elif "ngày" in text:
+        speak("Hôm nay là ngày %d tháng %d năm %d" % (now.day, now.month, now.year))
+    else:
+        speak("Tôi không hiểu bạn nói gì")
+        
+def open_application(text):
+    if "google" in text:
+        speak("Mở google")
+        os.startfile("C:\Program Files\Google\Chrome\Application\chrome.exe")
+    elif "word" in text:
+        speak("Mở word")
+        os.startfile("C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE")
+    elif "excel" in text:
+        speak("Mở excel")
+        os.startfile("C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE")
+    else:
+        speak("Ứng dụng bạn muốn mở không có trong danh sách")
 
 def assistant():
     speak("Xin chào, bạn tên là gì nhỉ?")

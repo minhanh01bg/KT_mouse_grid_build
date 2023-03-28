@@ -27,6 +27,7 @@ from gtts import gTTS
 from youtube_search import YoutubeSearch
 from mouse_grid_class import Mouse_Grid
 import Type_write_vietnamese
+import re
 
 def speech_number():
     print("Bot: Hãy cho tôi số của ô bạn muốn chọn")
@@ -81,6 +82,7 @@ def handle_text(text,mouse_grid,root,grid_size):
         root.destroy()
         root.mainloop()
         return 0
+    
     elif "chọn chuột trái" in text:
         root.destroy()
         pyautogui.click(mouse_grid.mouse_location_x, mouse_grid.mouse_location_y, clicks=1, interval=0.0, button='left')
@@ -98,12 +100,20 @@ def handle_text(text,mouse_grid,root,grid_size):
     
     elif "cuộn lên" in text:
         root.destroy()
-        pyautogui.scroll(500)
+        number = re.findall(r'\d+',text)
+        if len(number):
+            pyautogui.scroll(int(number[0]))
+        else:
+            pyautogui.scroll(500)
         return 0
     
     elif "cuộn xuống" in text:
         root.destroy()
-        pyautogui.scroll(-500)
+        number = re.findall(r'\d+',text)
+        if len(number):
+            pyautogui.scroll(-int(number[0]))
+        else:
+            pyautogui.scroll(-500)
         return 0
     
     elif "nhập" in text:
@@ -112,11 +122,51 @@ def handle_text(text,mouse_grid,root,grid_size):
         Type_write_vietnamese.type(content)
         return 0
     
+    elif "quay lại" in text:
+        root.destroy()
+        keyb = Controller()
+        # alt + left
+        keyb.press(Key.alt)
+        keyb.press(Key.left)
+        keyb.release(Key.left)
+        keyb.release(Key.alt)
+        return 0
+
+    elif "chuyển tiếp" in text:
+        root.destroy()
+        keyb = Controller()
+        # alt + right
+        keyb.press(Key.alt)
+        keyb.press(Key.right)
+        keyb.release(Key.right)
+        keyb.release(Key.alt)
+        return 0
+    
+    elif "chuyển ô nhập" in text:
+        root.destroy()
+        keyb = Controller()
+        # tab
+        keyb.press(Key.tab)
+        keyb.release(Key.tab)
+        return 0
+
+    elif "tải lại" in text:
+        root.destroy()
+        keyb = Controller()
+        # ctrl + r
+        keyb.press(Key.ctrl)
+        keyb.press('r')
+        keyb.release('r')
+        keyb.release(Key.ctrl)
+        return 0
+    
     elif "vẽ lại" in text:
         return -1
+    
     elif "thoát" in text:
         root.destroy()
-        return SystemExit(0)
+        raise SystemExit(0)
+    
     return -2
 
 if __name__ == "__main__":
@@ -135,11 +185,11 @@ if __name__ == "__main__":
         root.attributes('-alpha', 0.2)
         close_button = tk.Button(root, text="Close", command=root.destroy)
         close_button.pack()
-        # import time
-        # time.sleep(10)
         root.deiconify()
         root.update()
-
+        # root.after(0, get_text)
+        # root.update_idletasks()
+        # root.mainloop()
 
         text = get_text()
         check_redraw = handle_text(text,mouse_grid,root,grid_size)
@@ -147,29 +197,10 @@ if __name__ == "__main__":
         if check_redraw == -1:
             root.destroy()
             mouse_grid = Mouse_Grid(grid_size)
+
         if check_redraw == -2:
             print("Bot: Tôi không hiểu ý bạn")
             root.destroy()
             # break
 
-        # check_onclick = _oneclick()
-        # if (check_onclick == 1):
-        #     root.destroy()
-        #     pyautogui.click(target_x, target_y, clicks=1, interval=0.0, button='left')
-        #     text = fill_text()
-        #     pyautogui.typewrite(text)
-        #     # pyautogui.click()
-        #     mouse_grid = Mouse_Grid(grid_size)
-        #     check_onclick = 1
-
-        
-        # if check_onclick == 0:
-        #     # print("target_x: ", target_x, "target_y: ", target_y)
-        #     new_x,new_y = mouse_grid.draw_box()
-        #     # mouse_grid.compute_new_grid()
-        #     # print("new_grid_x: ", mouse_grid.new_grid_x, "new_grid_y: ", mouse_grid.new_grid_y)
-        #     mouse_grid.old_x = mouse_grid.location_x
-        #     mouse_grid.old_y = mouse_grid.location_y
-        #     root.destroy()
-        #     root.mainloop()
         
