@@ -82,7 +82,8 @@ class Mouse_Grid:
         label.place(x=0, y=0)
         self.root.geometry("%dx%d+%d+%d" % (self.img.size[0], self.img.size[1], 0, 0))
         self.root.attributes('-fullscreen', True)
-        self.root.attributes('-alpha', 0.3)
+        self.root.attributes('-alpha', 0.2)
+        self.root.attributes("-topmost", True)
         close_button = tk.Button(self.root, text="Close", command=self.root.destroy)
         close_button.pack()
         self.root.deiconify()
@@ -180,7 +181,6 @@ if __name__ == "__main__":
             # pyautogui.click()
             mouse_grid = Mouse_Grid(grid_size)
             check_onclick = 1
-
         
         if check_onclick == 0:
             # print("target_x: ", target_x, "target_y: ", target_y)
