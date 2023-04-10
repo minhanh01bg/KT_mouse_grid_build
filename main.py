@@ -29,6 +29,10 @@ from mouse_grid_class import Mouse_Grid
 import Type_write_vietnamese
 import re
 
+def extract_numbers(str):
+    return re.findall('\d+', str)
+
+
 def speech_number():
     print("Bot: Hãy cho tôi số của ô bạn muốn chọn")
     text = get_text()
@@ -169,6 +173,22 @@ def handle_text(text,mouse_grid,root,grid_size):
         keyb.release(Key.ctrl)
         return 0
     
+    # backspace
+    elif "xóa" in text:
+        root.destroy()
+        keyb = Controller()
+        try:
+            number = extract_numbers(text)
+            # print(number[0])
+            num = number[0]
+            for i in range(int(num)):
+                keyb.press(Key.backspace)
+                keyb.release(Key.backspace)
+        except:
+            keyb.press(Key.backspace)
+            keyb.release(Key.backspace)
+        return 0
+
     # ctrl + t
     elif "mở trang mới" in text:
         root.destroy()
@@ -200,7 +220,7 @@ def handle_text(text,mouse_grid,root,grid_size):
         play_music()
         return 0
     # read news
-    elif "đọc tin tức" in text:
+    elif "đọc tin tức" in text or "tin tức" in text or "báo" in text:
         root.destroy()
         read_news1()
         return 0
@@ -222,7 +242,11 @@ def handle_text(text,mouse_grid,root,grid_size):
         keyb.release(Key.enter)
         return 0
     
-    elif "vẽ lại" in text:
+    elif "dừng" in text or "tạm dừng vẽ" in text:
+        root.destroy()
+        return 1
+
+    elif "vẽ lại" in text or "vẽ" in text:
         return -1
     
     elif "thoát" in text:
@@ -235,6 +259,7 @@ if __name__ == "__main__":
     grid_size = 3
     mouse_grid = Mouse_Grid(grid_size)
     # mouse_grid.draw_grid()
+    check = True
     while True:
         # mouse_grid.display_grid()
         root = tk.Tk()
@@ -244,7 +269,10 @@ if __name__ == "__main__":
         label.place(x=0, y=0)
         root.geometry("%dx%d+%d+%d" % (mouse_grid.img.size[0], mouse_grid.img.size[1], 0, 0))
         root.attributes('-fullscreen', True)
-        root.attributes('-alpha', 0.2)
+        if check == True:
+            root.attributes('-alpha', 0.3)
+        else:
+            root.attributes('-alpha', 0)
         root.attributes("-topmost", True)
         close_button = tk.Button(root, text="Close", command=root.destroy)
         close_button.pack()
@@ -260,10 +288,14 @@ if __name__ == "__main__":
         if check_redraw == -1:
             root.destroy()
             mouse_grid = Mouse_Grid(grid_size)
+            check = True
 
+        if check_redraw == 1:
+            check = False
         if check_redraw == -2:
             print("Bot: Tôi không hiểu ý bạn")
             root.destroy()
             # break
+        
 
         

@@ -141,9 +141,9 @@ def weather():
     print(f"Bạn đang xem thời tiết ở {text}")
 
 def play_music():
-    print("Bạn muốn nghe bài hát gì ạ.")
+    print("Bot: Bạn muốn nghe bài hát gì ạ.")
     mysong = get_text()
-    print(f"Toi: {mysong}")
+    print(f"{mysong}")
     while True:
         result = YoutubeSearch(mysong, max_results=10).to_dict()
         if result:
@@ -173,11 +173,11 @@ def read_news():
             webbrowser.open(result['url'])
 
 def read_news1():
-    print("Bạn muốn đọc báo về gì")
+    print("Bot: Bạn muốn đọc báo về gì")
 
     queue = get_text()
 
-    print(f"Tôi: {queue}")
+    print(f"{queue}")
     url = f"https://thanhnien.vn/tim-kiem.htm?keywords={queue}"
     webbrowser.open(url)
     print(f"Bot: Đang đọc báo về {queue}")
@@ -191,7 +191,7 @@ def get_time(text):
     else:
         print("Tôi không hiểu bạn nói gì")
 
-def get_time1(text):
+def get_time1():
     url = "https://time.is/vi/Hanoi"
     webbrowser.open(url)
 
