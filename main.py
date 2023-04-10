@@ -3,7 +3,7 @@ from PIL import Image,ImageDraw,ImageTk,ImageFont
 import tkinter as tk
 from pynput import keyboard
 from pynput.keyboard import Key,Controller
-from speech_to_text import get_audio, speak, get_text, get_number, play_music, read_news, get_time, open_application, current_weather
+from speech_to_text import get_audio, speak, get_text, get_number, play_music, read_news, get_time, open_application, current_weather, read_news1,weather,get_time1
 import os
 import playsound
 import speech_recognition as sr
@@ -83,12 +83,12 @@ def handle_text(text,mouse_grid,root,grid_size):
         root.mainloop()
         return 0
     
-    elif "chọn chuột trái" in text:
+    elif ("chọn chuột trái" in text and "enter" not in text) or "chuột trái" in text:
         root.destroy()
         pyautogui.click(mouse_grid.mouse_location_x, mouse_grid.mouse_location_y, clicks=1, interval=0.0, button='left')
         return 0
 
-    elif "chọn chuột phải" in text:
+    elif ("chọn chuột phải" in text and "enter" not in text) or "chuột phải" in text:
         root.destroy()
         pyautogui.click(mouse_grid.mouse_location_x, mouse_grid.mouse_location_y, clicks=1, interval=0.0, button='right')
         return 0
@@ -116,7 +116,7 @@ def handle_text(text,mouse_grid,root,grid_size):
             pyautogui.scroll(-500)
         return 0
     
-    elif "nhập" in text:
+    elif "nhập" in text and "xong" not in text:
         root.destroy()
         content = text.split("nhập",1)[1]
         Type_write_vietnamese.type(content)
@@ -189,33 +189,39 @@ def handle_text(text,mouse_grid,root,grid_size):
         keyb.release(Key.shift)
         keyb.release(Key.ctrl)
         return 0
-    
+    # get weather
     elif "thời tiết" in text:
         root.destroy()
-        current_weather()
+        weather()
         return 0
+    # play music
     elif "nghe nhạc" in text:
         root.destroy()
         play_music()
         return 0
+    # read news
     elif "đọc tin tức" in text:
         root.destroy()
-        read_news()
+        read_news1()
         return 0
-    elif "thời gian" in text:
+    # get time 
+    elif "thời gian" in text or "mấy giờ" in text or "giờ" in text:
         root.destroy()
-        get_time()
+        get_time1()
         return 0
+    # open application
     elif "mở" in text:
         root.destroy()
         open_application(text)
         return 0
-    elif "xong rồi" in text:
+    # press enter
+    elif "nhập xong" in text or "nhấn enter" in text or "chọn enter" in text:
         root.destroy()
         keyb = Controller()
         keyb.press(Key.enter)
         keyb.release(Key.enter)
         return 0
+    
     elif "vẽ lại" in text:
         return -1
     

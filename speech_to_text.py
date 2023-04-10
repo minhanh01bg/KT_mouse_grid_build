@@ -74,7 +74,7 @@ def get_number(text):
         return -1
 
 def get_text():
-    for i in range(3):
+    for i in range(10):
         text = get_audio()
         if text:
             return text.lower()
@@ -88,6 +88,7 @@ def current_weather():
     print("Bạn muốn xem thời tiết ở đâu ạ.")
     ow_url = "http://api.openweathermap.org/data/2.5/weather?"
     city = get_text()
+    print(f"Toi: {city}")
     if not city:
         pass
     # api_key = "fe8d8c65cf345889139d8e545f57819a"
@@ -121,15 +122,23 @@ def current_weather():
     else:
         print("Không tìm thấy địa chỉ của bạn")
 
+def weather():
+    print("Bạn muốn xem thời tiết ở đâu.")
+    text = get_text()
+    url = f"https://nchmf.gov.vn/kttvSite/vi-VN/1/Search.html?s={text}&pageindex=1"
+    webbrowser.open(url)
+    print(f"Bạn đang xem thời tiết ở {text}")
+
 def play_music():
     print("Bạn muốn nghe bài hát gì ạ.")
     mysong = get_text()
+    print(f"Toi: {mysong}")
     while True:
         result = YoutubeSearch(mysong, max_results=10).to_dict()
         if result:
             break
         
-    url = "https://www.youtube.com" + result[0]["channel_link"]
+    url = "https://www.youtube.com" + result[0]["url_suffix"]
     webbrowser.open(url)
     print("Đang phát bài hát " + mysong)
 
@@ -137,6 +146,7 @@ def read_news():
     print("Bạn muốn đọc báo về gì")
     
     queue = get_text()
+    print(f"Toi: {queue}")
     params = {
         # 'apiKey': '30d02d187f7140faacf9ccd27a1441ad',
         'apiKey': 'f77bb94ff7b24fd7a2031230edf0f017',
@@ -147,10 +157,19 @@ def read_news():
     print("Tin tức")
 
     for number, result in enumerate(api_response['articles'], start=1):
-        print(f"""Tin {number}:\nTiêu đề: {result['title']}\nTrích dẫn: {result['description']}\nLink: {result['url']}
-    """)
+        print(f"""Tin {number}:\nTiêu đề: {result['title']}\nTrích dẫn: {result['description']}\nLink: {result['url']}""")
         if number <= 3:
             webbrowser.open(result['url'])
+
+def read_news1():
+    print("Bạn muốn đọc báo về gì")
+
+    queue = get_text()
+
+    print(f"Tôi: {queue}")
+    url = f"https://thanhnien.vn/tim-kiem.htm?keywords={queue}"
+    webbrowser.open(url)
+    print(f"Bot: Đang đọc báo về {queue}")
 
 def get_time(text):
     now = datetime.datetime.now()
@@ -160,17 +179,21 @@ def get_time(text):
         print("Hôm nay là ngày %d tháng %d năm %d" % (now.day, now.month, now.year))
     else:
         print("Tôi không hiểu bạn nói gì")
-        
+
+def get_time1(text):
+    url = "https://time.is/vi/Hanoi"
+    webbrowser.open(url)
+
 def open_application(text):
     if "google" in text:
         print("Mở google")
-        os.startfile("C:\Program Files\Google\Chrome\Application\chrome.exe")
+        os.startfile("C:/Program Files/Google/Chrome/Application/chrome.exe")
     elif "word" in text:
         print("Mở word")
-        os.startfile("C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE")
+        os.startfile("C:/Program Files/Microsoft Office/root/Office16/WINWORD.EXE")
     elif "excel" in text:
         print("Mở excel")
-        os.startfile("C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE")
+        os.startfile("C:/Program Files/Microsoft Office/root/Office16/EXCEL.EXE")
     else:
         print("Ứng dụng bạn muốn mở không có trong danh sách")
 
