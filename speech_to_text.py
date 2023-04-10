@@ -19,7 +19,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from time import strftime
 from gtts import gTTS
 from youtube_search import YoutubeSearch
-
+import pyttsx3
+import pygame
 
 wikipedia.set_lang("vi")
 language = 'vi'
@@ -30,8 +31,18 @@ def speak(text):
     print("Bot: {}".format(text))
     tts = gTTS(text=text,lang = language,slow=False)
     tts.save("sound.mp3")
-    playsound.playsound("sound.mp3",False)
+
+    pygame.init()
+
+    sound_file = "sound.mp3"
+    sound = pygame.mixer.Sound(sound_file)
+
+    sound.play()
+
+    while pygame.mixer.get_busy():
+        pygame.time.wait(100)
     os.remove("sound.mp3")
+    pygame.quit()
 
 def get_audio():
     r = sr.Recognizer()
