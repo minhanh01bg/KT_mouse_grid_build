@@ -85,11 +85,11 @@ def get_number(text):
         return -1
 
 def get_text():
-    for i in range(10):
+    for i in range(20):
         text = get_audio()
         if text:
             return text.lower()
-        if i < 2:
+        if i < 5:
             print("Bot: Tôi không nghe rõ bạn nói, bạn nói lại được không?")
     time.sleep(2)
     stop()

@@ -63,29 +63,32 @@ def fill_text():
 
 def handle_text(text,mouse_grid,root,grid_size):
     print(text)
-    if "di chuyển" in text:
-        cell_number = get_number(text)
-        if (cell_number < 1 or cell_number > grid_size * grid_size):
-            print("Invalid cell number")
+    if "di chuyển" in text or "chọn ô" in text or "chọn số" in text or "chọn ô số" in text:
+        try:
+            cell_number = get_number(text)
+            if (cell_number < 1 or cell_number > grid_size * grid_size):
+                print("Invalid cell number")
+                root.destroy()
+                return 0
+
+            x = (cell_number - 1) % grid_size
+            y = (cell_number - 1) // grid_size
+            # print("x: ", x, "y: ", y)
+
+            mouse_grid.update_location(x, y)
+            # print("location_x: ", mouse_grid.location_x, "location_y: ", mouse_grid.location_y)
+            target_x = x * mouse_grid.new_grid_x + mouse_grid.new_grid_x // 2 + mouse_grid.old_x
+            target_y = y * mouse_grid.new_grid_y + mouse_grid.new_grid_y // 2 + mouse_grid.old_y
+            pyautogui.moveTo(target_x, target_y, duration=0.25)
+            mouse_grid.update_mouse_location(target_x, target_y)
+            mouse_grid.draw_box()
+            mouse_grid.old_x = mouse_grid.location_x
+            mouse_grid.old_y = mouse_grid.location_y
             root.destroy()
+            root.mainloop()
             return 0
-
-        x = (cell_number - 1) % grid_size
-        y = (cell_number - 1) // grid_size
-        print("x: ", x, "y: ", y)
-
-        mouse_grid.update_location(x, y)
-        # print("location_x: ", mouse_grid.location_x, "location_y: ", mouse_grid.location_y)
-        target_x = x * mouse_grid.new_grid_x + mouse_grid.new_grid_x // 2 + mouse_grid.old_x
-        target_y = y * mouse_grid.new_grid_y + mouse_grid.new_grid_y // 2 + mouse_grid.old_y
-        pyautogui.moveTo(target_x, target_y, duration=0.25)
-        mouse_grid.update_mouse_location(target_x, target_y)
-        mouse_grid.draw_box()
-        mouse_grid.old_x = mouse_grid.location_x
-        mouse_grid.old_y = mouse_grid.location_y
-        root.destroy()
-        root.mainloop()
-        return 0
+        except:
+            return -2
     
     elif ("chọn chuột trái" in text and "enter" not in text) or "chuột trái" in text:
         root.destroy()
@@ -235,7 +238,7 @@ def handle_text(text,mouse_grid,root,grid_size):
         open_application(text)
         return 0
     # press enter
-    elif "nhập xong" in text or "nhấn enter" in text or "chọn enter" in text:
+    elif "nhập xong" in text or "enter" in text:
         root.destroy()
         keyb = Controller()
         keyb.press(Key.enter)
@@ -270,7 +273,7 @@ if __name__ == "__main__":
         root.geometry("%dx%d+%d+%d" % (mouse_grid.img.size[0], mouse_grid.img.size[1], 0, 0))
         root.attributes('-fullscreen', True)
         if check == True:
-            root.attributes('-alpha', 0.3)
+            root.attributes('-alpha', 0.2)
         else:
             root.attributes('-alpha', 0)
         root.attributes("-topmost", True)
@@ -292,6 +295,7 @@ if __name__ == "__main__":
 
         if check_redraw == 1:
             check = False
+
         if check_redraw == -2:
             print("Bot: Tôi không hiểu ý bạn")
             root.destroy()
