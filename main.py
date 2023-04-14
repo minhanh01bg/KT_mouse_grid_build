@@ -167,7 +167,7 @@ def handle_text(text,mouse_grid,root,grid_size):
         return 0
     
     # ctrl + w
-    elif "đóng trang" in text:
+    elif "đóng trang" in text or "đóng tab" in text:
         root.destroy()
         keyb = Controller()
         keyb.press(Key.ctrl)
@@ -193,7 +193,7 @@ def handle_text(text,mouse_grid,root,grid_size):
         return 0
 
     # ctrl + t
-    elif "mở trang mới" in text:
+    elif "mở trang mới" in text or "mở tab mới" in text:
         root.destroy()
         keyb = Controller()
         keyb.press(Key.ctrl)
@@ -218,7 +218,7 @@ def handle_text(text,mouse_grid,root,grid_size):
         weather()
         return 0
     # play music
-    elif "nghe nhạc" in text:
+    elif "nghe nhạc" in text or "nhạc" in text:
         root.destroy()
         play_music()
         return 0
@@ -272,10 +272,12 @@ if __name__ == "__main__":
         label.place(x=0, y=0)
         root.geometry("%dx%d+%d+%d" % (mouse_grid.img.size[0], mouse_grid.img.size[1], 0, 0))
         root.attributes('-fullscreen', True)
+
         if check == True:
             root.attributes('-alpha', 0.2)
         else:
             root.attributes('-alpha', 0)
+
         root.attributes("-topmost", True)
         close_button = tk.Button(root, text="Close", command=root.destroy)
         close_button.pack()

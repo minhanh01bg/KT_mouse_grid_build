@@ -1,40 +1,129 @@
 # Import các thư viện
-import pygame
-# from pydub import AudioSegment
-# from pydub.playback import play as pydub_play
-import sounddevice as sd
-from gtts import gTTS
-import os
-# import simpleaudio as sa
-language = 'vi'
-def speak(text):
-    print("Bot: {}".format(text))
-    tts = gTTS(text=text,lang = language,slow=False)
-    tts.save("sound.mp3")
-    import pygame
+# import pygame
+# # from pydub import AudioSegment
+# # from pydub.playback import play as pydub_play
+# import sounddevice as sd
+# from gtts import gTTS
+# import os
+# # import simpleaudio as sa
+# language = 'vi'
+# def speak(text):
+#     print("Bot: {}".format(text))
+#     tts = gTTS(text=text,lang = language,slow=False)
+#     tts.save("sound.mp3")
+#     import pygame
 
-    pygame.init()
+#     pygame.init()
 
-    sound_file = "sound.mp3"
-    sound = pygame.mixer.Sound(sound_file)
+#     sound_file = "sound.mp3"
+#     sound = pygame.mixer.Sound(sound_file)
 
-    sound.play()
+#     sound.play()
 
-    while pygame.mixer.get_busy():
-        pygame.time.wait(100)
-    os.remove("sound.mp3")
-    pygame.quit()
-speak("Xin chào! Tôi là bot")
-# Phát âm thanh bằng pydub
-# sound = AudioSegment.from_file("sound.mp3", format="mp3")
-# pydub_play(sound)
+#     while pygame.mixer.get_busy():
+#         pygame.time.wait(100)
+#     os.remove("sound.mp3")
+#     pygame.quit()
+# speak("Xin chào! Tôi là bot")
 
-# # Phát âm thanh bằng sounddevice
-# data, fs = sd.read("path/to/file.wav", dtype='float32')
-# sd.play(data, fs)
-# sd.wait()
 
-# # Phát âm thanh bằng simpleaudio
-# wave_obj = sa.WaveObject.from_wave_file("path/to/file.wav")
-# play_obj = wave_obj.play()
-# play_obj.wait_done()
+# Import necessary libraries
+from pyvi import ViTokenizer
+import gensim
+import numpy as np
+# from euclidean_norm import dot, euclidean_norm
+# Load pre-trained Word2Vec model
+model_path = './word2vec/model/wiki.vi.model.bin'
+w2v_model = gensim.models.KeyedVectors.load_word2vec_format(model_path, binary=True)
+
+
+# Define function to preprocess text
+def preprocess_text(text):
+    text = ViTokenizer.tokenize(text)
+    text = text.lower()
+    return text
+
+def balance_vector(vec):
+    vec = np.array(vec)
+    vec = vec/np.mean(vec)
+    vec = np.reshape(vec, (-1,))
+    return vec
+
+# Define function to calculate sentence similarity
+def sentence_similarity(s1, s2):
+    s1 = preprocess_text(s1).split()
+    s2 = preprocess_text(s2).split()
+    
+    s1_vectors = []
+    for word in s1:
+        try:
+            s1_vectors.append(w2v_model[word])
+        except:
+            pass
+    
+    s2_vectors = []
+    for word in s2:
+        try:
+            s2_vectors.append(w2v_model[word])
+        except:
+            pass
+    
+    if len(s1_vectors) == 0 or len(s2_vectors) == 0:
+        return 0
+    
+    if len(s1_vectors) == len(s2_vectors):
+        s1_vector = balance_vector(s1_vectors)
+        s2_vector = balance_vector(s2_vectors)
+    else:
+        s1_vector = np.mean(s1_vectors, axis=0)
+        s2_vector = np.mean(s2_vectors, axis=0)
+    # print(s1_vector)
+    cosine_similarity = np.dot(s1_vector, s2_vector) / (np.linalg.norm(s1_vector) * np.linalg.norm(s2_vector))
+    # similarity = dot(s1_vector, s2_vector) / (euclidean_norm(s1_vector) * euclidean_norm(s2_vector))
+    
+    return cosine_similarity
+
+
+# Example sentences
+s1 = 'Hôm nay trời nắng.'
+s2 = 'Thời tiết hôm nay rất đẹp.'
+s11 = 'Hôm nay trời nắng đẹp.'
+s3 = 'Sân khấu rực rỡ ánh đèn.'
+s4 = 'Sân khấu sáng loáng ánh đèn.'
+s5 = 'Công ty ABC đang tuyển dụng nhân viên mới.'
+s6 = 'Công ty XYZ đang tuyển dụng nhân viên.'
+s7 = 'Thời tiết hôm nay rất xấu.'
+s8 = 'Hôm nay trời mưa.'
+
+
+
+s9="mưa"
+s10="nắng"
+# Calculate sentence similarity
+# print(f"{s1} & {s2}:",sentence_similarity(s1, s2)) # 0.8084618
+# print(f"{s1} & {s11} :",sentence_similarity(s1, s11)) # 1.0 (same sentence
+# print(f"{s1} & {s3}:",sentence_similarity(s1, s3)) # 0.34951764
+# print(f"{s1} & {s4}:",sentence_similarity(s1, s4)) # 0.756798
+# print(f"{s1} & {s5}:",sentence_similarity(s1, s5)) # 0.019295293
+# print(f"{s5} & {s6}:",sentence_similarity(s5, s6)) # 0.7776596
+# print(f"{s1} & {s7}:",sentence_similarity(s1, s7)) # 0.03189189
+# print(f"{s1} & {s8}:",sentence_similarity(s1, s8)) # 0.27018103
+
+# print(f"{s9} & {s10} :",sentence_similarity(s9, s10)) # 0.27018103
+
+str1 = "chọn ô 1"
+str2 = "chọn o1"
+
+str3 = "di chuyển đến ô"
+str4 = "di chuyển đến o"
+str5 = "chuyển đến o"
+str6 = "đọc tin tức"
+str7 = "đọc báo"
+print(f"{str1} & {str2} :",sentence_similarity(str1, str2)) 
+print(f"{str3} & {str4} :",sentence_similarity(str3, str4)) 
+print(f"{str4} & {str5} :",sentence_similarity(str4, str5))
+print(f"{str5} & {str6} :",sentence_similarity(str5, str6))
+print(f"{str6} & {str7} :",sentence_similarity(str6, str7))
+
+
+

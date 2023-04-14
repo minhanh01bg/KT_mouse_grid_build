@@ -21,7 +21,10 @@ from gtts import gTTS
 from youtube_search import YoutubeSearch
 import pyttsx3
 import pygame
+import winsound
 
+frequency = 1500  # Set Frequency To 2500 Hertz
+duration = 250  # Set Duration To 1000 ms == 1 second
 wikipedia.set_lang("vi")
 language = 'vi'
 path = ChromeDriverManager().install()
@@ -46,8 +49,10 @@ def speak(text):
 
 def get_audio():
     r = sr.Recognizer()
+    print("Tôi: ",end='')
     with sr.Microphone() as source:
-        print("Tôi: ",end='')
+        winsound.Beep(frequency, duration)
+        winsound.Beep(frequency, duration)
         audio = r.listen(source,phrase_time_limit=2)
         try:
             text = r.recognize_google(audio,language="vi-VN")
@@ -86,6 +91,7 @@ def get_number(text):
 
 def get_text():
     for i in range(20):
+
         text = get_audio()
         if text:
             return text.lower()
