@@ -1,0 +1,206 @@
+{
+    "move": [
+        "di chuyển",
+        "chọn ô",
+        "chọn o",
+        "chọn ô số",
+        "chọn o số"
+    ],
+    "clickleft":[
+        "chọn chuột trái",
+        "click chuột trái"
+    ],
+    "clickright":[
+        "chọn chuột phải",
+        "click chuột phải"
+    ],
+    "doubleClick":[
+        "double click",
+        "double click chuột trái",
+        "click chuột"
+    ],
+    "up":[
+        "lên",
+        "cuộn lên",
+        "cuộn lên trên",
+        "cuộn lên trên trang",
+        "cuộn lên trang",
+        "cuộn lên trên trang web",
+        "lên trên"
+    ],
+    "down":[
+        "xuống",
+        "cuộn xuống",
+        "cuộn xuống dưới",
+        "cuộn xuống dưới trang",
+        "cuộn xuống trang",
+        "cuộn xuống dưới trang web",
+        "xuống dưới"
+    ],
+    "fill":[
+        "điền",
+        "điền vào",
+        "nhập",
+        "nhập vào"
+    ],
+    "back":[
+        "quay lại",
+        "quay trở lại",
+        "quay về",
+        "quay trở về",
+        "quay về trang trước",
+        "quay trở về trang trước",
+        "quay về trang trước đó",
+        "quay trở về trang trước đó",
+        "quay về trang trước đây",
+        "quay trở về trang trước đây",
+        "chuyển về",
+        "chuyển về trang trước",
+        "chuyển trở về",
+        "trở về",
+        "trở lại",
+        "trở về trang trước",
+        "trở về trang trước đó",
+        "trở về trang trước đây",
+        "trở lại trang trước",
+        "trở lại trang trước đó",
+        "trở lại trang trước đây",
+        "lùi lại",
+        "lùi về",
+        "lùi về trang trước",
+        "lùi về trang trước đó",
+        "lùi về trang trước đây"
+    ],
+    "forward":[
+        "tiến tới",
+        "tiến về",
+        "tiến tới trang sau",
+        "tiến về trang sau",
+        "tiến tới trang sau đó",
+        "tiến về trang sau đó",
+        "tiến tới trang sau đây",
+        "tiến về trang sau đây",
+        "chuyển tới",
+        "chuyển tiếp",
+        "chuyển tới trang sau",
+        "chuyển tiếp tới trang sau",
+        "chuyển đến",
+        "chuyển đến trang sau",
+        "chuyển trang",
+        "chuyển trình duyệt",
+        "chuyển cửa sổ"
+    ],
+    "forwardfill":[
+        "tiến tới và điền",
+        "chuyển ô nhập",
+        "chuyển ô nhập vào",
+        "chuyển ô nhập dữ liệu",
+        "chuyển ô nhập dữ liệu vào",
+        "chuyển ô nhập dữ liệu vào ô",
+        "chuyển ô nhập dữ liệu vào ô số",
+        "chọn ô nhập tiếp theo"
+    ],
+    "reload":[
+        "tải lại",
+        "tải lại trang",
+        "tải lại trang web",
+        "tải lại trang hiện tại",
+        "load lại",
+        "loát lại",
+        "noát lại"
+    ],
+    "close":[
+        "đóng trang",
+        "đóng trang web",
+        "đóng trang hiện tại",
+        "đóng tab",
+        "đóng tab hiện tại",
+        "đóng tab trang hiện tại",
+        "đóng tab trang web hiện tại",
+        "đóng tab trang web",
+        "đóng tab trang",
+        "đóng web",
+        "tắt trang",
+        "đóng trình duyệt",
+        "đóng cửa sổ"
+    ],
+    "remove":[
+        "xóa",
+        "xóa kí tự"
+    ],
+    "newtab":[
+        "mở trang mới",
+        "mở tab mới",
+        "mở web mới",
+        "mở trình duyệt mới",
+        "mở cửa sổ mới"
+    ],
+    "opentabold":[
+        "mở lại trang",
+        "mở lại tab",
+        "mở lại web",
+        "mở lại trình duyệt",
+        "mở lại cửa sổ"
+    ],
+    "weather":[
+        "thời tiết",
+        "dự báo thời tiết",
+        "dự báo"
+    ],
+    "music":[
+        "nghe",
+        "nghe nhạc",
+        "chơi nhạc"
+    ],
+    "readnew":[
+        "đọc tin tức",
+        "tin tức",
+        "thời sự",
+        "đọc báo",
+        "đọc báo online",
+        "báo online"
+    ],
+    "time":[
+        "thời gian",
+        "bây giờ là mấy giờ",
+        "mấy giờ",
+        "ngày",
+        "ngày bao nhiêu",
+        "hôm nay là ngày bao nhiêu",
+        "hôm nay là ngày mấy",
+        "hôm nay là ngày mấy tháng mấy",
+        "hôm nay là ngày mấy tháng mấy năm bao nhiêu"
+    ],
+    "openApp":[
+        "mở ứng dụng",
+        "mở"
+    ],
+    "finished":[
+        "nhập xong",
+        "điền xong",
+        "enter"
+    ],
+    "stop":[
+        "dừng",
+        "tạm dừng",
+        "tạm ngưng",
+        "ngưng",
+        "ngừng",
+        "tạm thời dừng",
+        "tạm thời ngưng",
+        "tạm thời ngừng",
+        "tạm thời dừng lại",
+        "tạm thời ngưng lại",
+        "tạm thời ngừng lại",
+        "tạm dừng vẽ"
+    ],
+    "draw":[
+        "vẽ lại",
+        "vẽ lại từ đầu",
+        "vẽ"
+    ],
+    "shutdown":[
+        "thoát",
+        "thoát chương trình"
+    ]
+}

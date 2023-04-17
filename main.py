@@ -67,7 +67,7 @@ def handle_text(text,mouse_grid,root,grid_size):
         try:
             cell_number = get_number(text)
             if (cell_number < 1 or cell_number > grid_size * grid_size):
-                print("Invalid cell number")
+                speak("tôi không nghe rõ ô bạn muốn chọn, hãy thử lại")
                 root.destroy()
                 return 0
 
@@ -215,7 +215,8 @@ def handle_text(text,mouse_grid,root,grid_size):
     # get weather
     elif "thời tiết" in text:
         root.destroy()
-        weather()
+        current_weather()
+        # weather()
         return 0
     # play music
     elif "nghe nhạc" in text or "nhạc" in text:
@@ -223,14 +224,14 @@ def handle_text(text,mouse_grid,root,grid_size):
         play_music()
         return 0
     # read news
-    elif "đọc tin tức" in text or "tin tức" in text or "báo" in text:
+    elif "đọc tin tức" in text or "tin tức" in text or "đọc báo" in text:
         root.destroy()
         read_news1()
         return 0
     # get time 
     elif "thời gian" in text or "mấy giờ" in text or "giờ" in text:
         root.destroy()
-        get_time1()
+        get_time()
         return 0
     # open application
     elif "mở" in text:
@@ -274,13 +275,13 @@ if __name__ == "__main__":
         root.attributes('-fullscreen', True)
 
         if check == True:
-            root.attributes('-alpha', 0.2)
+            root.attributes('-alpha', 0.3)
         else:
             root.attributes('-alpha', 0)
 
         root.attributes("-topmost", True)
-        close_button = tk.Button(root, text="Close", command=root.destroy)
-        close_button.pack()
+        # close_button = tk.Button(root, text="Close", command=root.destroy)
+        # close_button.pack()
         root.deiconify()
         root.update()
         # root.after(0, get_text)
@@ -299,7 +300,7 @@ if __name__ == "__main__":
             check = False
 
         if check_redraw == -2:
-            print("Bot: Tôi không hiểu ý bạn")
+            speak("Tôi không hiểu ý bạn")
             root.destroy()
             # break
         

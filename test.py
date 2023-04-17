@@ -48,6 +48,18 @@ def balance_vector(vec):
     vec = vec/np.mean(vec)
     vec = np.reshape(vec, (-1,))
     return vec
+def cosine_similarity(u, v):
+    u_ext = np.expand_dims(u, axis=1)
+    # print(u_ext)
+    dot_product = np.dot(v, u_ext)
+    norm_u_ext = np.linalg.norm(u_ext)
+    norm_v = np.linalg.norm(v, axis=1)
+    return dot_product / (norm_u_ext * norm_v)
+def pad_vec(a,b):
+    if a.shape[0] < b.shape[0]:
+        a = np.pad(a, ((0, b.shape[0]-a.shape[0]), (0, 0)), 'constant')
+    else:
+        b = np.pad(b, ((0, a.shape[0]-b.shape[0]), (0, 0)), 'constant')
 
 # Define function to calculate sentence similarity
 def sentence_similarity(s1, s2):
@@ -69,19 +81,37 @@ def sentence_similarity(s1, s2):
             pass
     
     if len(s1_vectors) == 0 or len(s2_vectors) == 0:
+        print(len(s1_vectors))
+        print(len(s2_vectors))
         return 0
     
     if len(s1_vectors) == len(s2_vectors):
+        print("equal:",end=" ")
         s1_vector = balance_vector(s1_vectors)
         s2_vector = balance_vector(s2_vectors)
     else:
+        print("not equal:",end=" ")
+        s1_vectors = np.array(s1_vectors)
+        s2_vectors = np.array(s2_vectors)
+        if s1_vectors.shape[0] < s2_vectors.shape[0]:
+            s1_vectors = np.pad(s1_vectors, ((0, s2_vectors.shape[0]-s1_vectors.shape[0]), (0, 0)), 'constant')
+        else:
+            s2_vectors = np.pad(s2_vectors, ((0, s1_vectors.shape[0]-s2_vectors.shape[0]), (0, 0)), 'constant')
+        # print(len(s1_vectors))
+        # print(len(s1_vectors[0]))
+        # print(len(s2_vectors))
+        # print(len(s2_vectors[0]))
+        s1_vector = s1_vectors
+        s2_vector = s2_vectors
         s1_vector = np.mean(s1_vectors, axis=0)
         s2_vector = np.mean(s2_vectors, axis=0)
-    # print(s1_vector)
-    cosine_similarity = np.dot(s1_vector, s2_vector) / (np.linalg.norm(s1_vector) * np.linalg.norm(s2_vector))
+        # s1_vector = balance_vector(s1_vector)
+        # s2_vector = balance_vector(s2_vector)
+        
+    cosine_similarity1 = np.dot(s1_vector, s2_vector) / (np.linalg.norm(s1_vector) * np.linalg.norm(s2_vector))
     # similarity = dot(s1_vector, s2_vector) / (euclidean_norm(s1_vector) * euclidean_norm(s2_vector))
     
-    return cosine_similarity
+    return cosine_similarity1
 
 
 # Example sentences
@@ -116,14 +146,26 @@ str2 = "chọn o1"
 
 str3 = "di chuyển đến ô"
 str4 = "di chuyển đến o"
+str44= "đi đến ô"
 str5 = "chuyển đến o"
 str6 = "đọc tin tức"
 str7 = "đọc báo"
-print(f"{str1} & {str2} :",sentence_similarity(str1, str2)) 
-print(f"{str3} & {str4} :",sentence_similarity(str3, str4)) 
-print(f"{str4} & {str5} :",sentence_similarity(str4, str5))
-print(f"{str5} & {str6} :",sentence_similarity(str5, str6))
-print(f"{str6} & {str7} :",sentence_similarity(str6, str7))
+
+str8 = "chọn chuột trái"
+str9 = "chọn chuột phải"
+print(f"{str1} & {str2}: ",sentence_similarity(str1, str2)) 
+print(f"{str3} & {str4}: ",sentence_similarity(str3, str4)) 
+print(f"{str3} & {str44}: ",sentence_similarity(str3, str44))
+print(f"{str4} & {str5}: ",sentence_similarity(str4, str5))
+print(f"{str5} & {str6}: ",sentence_similarity(str5, str6))
+print(f"{str6} & {str7}: ",sentence_similarity(str6, str7))
+print(f"{str8} & {str9}: ",sentence_similarity(str8, str9))
 
 
 
+
+# u = np.array([1, 2])
+# v = np.array([[3, 4], [5, 6]])
+# similarity = cosine_similarity(u, v)
+# print(similarity)
+# # print(np.mean(similarity))

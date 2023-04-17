@@ -22,7 +22,7 @@ from youtube_search import YoutubeSearch
 import pyttsx3
 import pygame
 import winsound
-
+import json
 frequency = 1500  # Set Frequency To 2500 Hertz
 duration = 250  # Set Duration To 1000 ms == 1 second
 wikipedia.set_lang("vi")
@@ -64,7 +64,7 @@ def get_audio():
             return 0
 
 def stop():
-    print("Tạm biệt bạn")
+    speak("tạm biệt bạn")
     # return SystemExit(0)
 
 def get_number(text):
@@ -91,20 +91,20 @@ def get_number(text):
 
 def get_text():
     for i in range(20):
-
         text = get_audio()
         if text:
             return text.lower()
-        if i < 5:
-            print("Bot: Tôi không nghe rõ bạn nói, bạn nói lại được không?")
+        if i < 2:
+            speak("Tôi không nghe rõ bạn nói, bạn nói lại được không?")
     time.sleep(2)
     stop()
     return 0
 
 def current_weather():
-    print("Bạn muốn xem thời tiết ở đâu ạ.")
+    speak("Bạn muốn xem thời tiết ở đâu ạ.")
     ow_url = "http://api.openweathermap.org/data/2.5/weather?"
-    city = get_text()
+    # city = get_text()
+    city = "hà nội"
     print(f"Toi: {city}")
     if not city:
         pass
@@ -113,6 +113,11 @@ def current_weather():
     call_url = ow_url + "appid=" + api_key + "&q=" + city + "&units=metric"
     response = requests.get(call_url)
     data = response.json()
+    # save data weather to json file
+    outfile = open('./data/weather.json', 'w')
+    json.dump(data, outfile)
+    outfile.close()
+
     if data["cod"] != "404":
         city_res = data["main"]
         current_temperature = city_res["temp"]
@@ -130,24 +135,40 @@ def current_weather():
         Mặt trời lặn vào {hourset} giờ {minset} phút
         Nhiệt độ trung bình là {temp} độ C
         Áp suất không khí là {pressure} héc tơ Pascal
-        Độ ẩm là {humidity}%
-        Trời hôm nay quang mây. Dự báo mưa rải rác ở một số nơi.""".format(day = now.day,month = now.month, year= now.year, hourrise = sunrise.hour, minrise = sunrise.minute,
+        Độ ẩm là {humidity} phần trăm.""".format(day = now.day,month = now.month, year= now.year, hourrise = sunrise.hour, minrise = sunrise.minute,
                                                                            hourset = sunset.hour, minset = sunset.minute, 
                                                                            temp = current_temperature, pressure = current_pressure, humidity = current_humidity)
-        print(content)
+        weather_dict = {
+            "clear sky": "trời quang đãng",
+            "few clouds": "trời có vài đám mây",
+            "scattered clouds": "trời có nhiều đám mây rải rác",
+            "broken clouds": "trời có mây rải rác",
+            "overcast clouds": "trời u ám vì có mây dày đặc",
+            "light rain": "trời mưa nhẹ",
+            "moderate rain": "trời mưa vừa",
+            "heavy intensity rain": "trời mưa to",
+            "thunderstorm": "trời có sấm sét và mưa to ",
+            # "snow": "trời có tuyết rơi",
+            # "mist": "trời có sương mù",
+            # "fog": "trời có sương mù",
+            }
+        if weather_description in weather_dict:
+            content = content + f"\n        Thời tiết hiện tại là {weather_dict[weather_description]}"
+        
+        speak(content)
         time.sleep(20)
     else:
-        print("Không tìm thấy địa chỉ của bạn")
+        speak("Không tìm thấy địa chỉ của bạn")
 
 def weather():
-    print("Bạn muốn xem thời tiết ở đâu.")
+    speak("bạn muốn xem thời tiết ở đâu.")
     text = get_text()
     url = f"https://nchmf.gov.vn/kttvSite/vi-VN/1/Search.html?s={text}&pageindex=1"
     webbrowser.open(url)
-    print(f"Bạn đang xem thời tiết ở {text}")
+    speak(f"bạn đang xem thời tiết ở {text}")
 
 def play_music():
-    print("Bot: Bạn muốn nghe bài hát gì ạ.")
+    speak("bạn muốn nghe bài hát gì ạ.")
     mysong = get_text()
     print(f"{mysong}")
     while True:
@@ -179,23 +200,23 @@ def read_news():
             webbrowser.open(result['url'])
 
 def read_news1():
-    print("Bot: Bạn muốn đọc báo về gì")
-
+    speak("bạn muốn đọc báo về gì")
+    
     queue = get_text()
 
     print(f"{queue}")
     url = f"https://thanhnien.vn/tim-kiem.htm?keywords={queue}"
     webbrowser.open(url)
-    print(f"Bot: Đang đọc báo về {queue}")
+    speak(f"đang đọc báo về {queue}")
 
 def get_time(text):
     now = datetime.datetime.now()
     if "giờ" in text:
-        print("Bây giờ là %d giờ %d phút" % (now.hour, now.minute))
+        speak("Bây giờ là %d giờ %d phút" % (now.hour, now.minute))
     elif "ngày" in text:
-        print("Hôm nay là ngày %d tháng %d năm %d" % (now.day, now.month, now.year))
+        speak("Hôm nay là ngày %d tháng %d năm %d" % (now.day, now.month, now.year))
     else:
-        print("Tôi không hiểu bạn nói gì")
+        speak("Tôi không hiểu bạn nói gì")
 
 def get_time1():
     url = "https://time.is/vi/Hanoi"
@@ -203,38 +224,20 @@ def get_time1():
 
 def open_application(text):
     if "google" in text:
-        print("Mở google")
+        speak("đang mở google")
         os.startfile("C:/Program Files/Google/Chrome/Application/chrome.exe")
     elif "word" in text:
-        print("Mở word")
+        speak("đang mở word")
         os.startfile("C:/Program Files/Microsoft Office/root/Office16/WINWORD.EXE")
     elif "excel" in text:
-        print("Mở excel")
+        speak("đang mở excel")
         os.startfile("C:/Program Files/Microsoft Office/root/Office16/EXCEL.EXE")
     else:
-        print("Ứng dụng bạn muốn mở không có trong danh sách")
+        speak("Ứng dụng bạn muốn mở không có trong danh sách")
 
-def assistant():
-    speak("Xin chào, bạn tên là gì nhỉ?")
-    name = get_text()
-    if name:
-        speak("Chào bạn {}".format(name))
-        speak("Bạn cần Bot có thể giúp gì ạ?")
-        while True:
-            text = get_text()
-            if not text:
-                break
-            # if "điều khiển chuột" in text:
-            if "chuột" in text:
-                speak("Chọn số")
-                text = get_text()
-                if not text:
-                    break
-                number = get_number(text)
-                if number == -1:
-                    speak("Bạn chọn sai số")
-                    break
-                
-                speak("Bạn chọn số {}".format(number))
-            else:
-                speak("Bạn cần Bot giúp gì ạ?")
+if __name__ == "__main__":
+    # text = "mở word"
+    # open_application(text)
+    # text = ""
+    # get_time(text)
+    current_weather()
