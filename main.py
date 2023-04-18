@@ -33,41 +33,41 @@ def extract_numbers(str):
     return re.findall('\d+', str)
 
 
-def speech_number():
-    print("Bot: Hãy cho tôi số của ô bạn muốn chọn")
-    text = get_text()
-    print(text)
-    number = get_number(text)
-    if number == -1:
-        print("Bot: Không có số này")
-        return speech_number()
-    return number
+# def speech_number():
+#     print("Bot: Hãy cho tôi số của ô bạn muốn chọn")
+#     text = get_text()
+#     print(text)
+#     number = get_number(text)
+#     if number == -1:
+#         print("Bot: Không có số này")
+#         return speech_number()
+#     return number
 
-def _oneclick():
-    print("Bot: Bạn có muốn chọn ô này không?")
-    text = get_text()
-    if "có" in text:
-        return True
-    elif "không" in text:
-        return False
-    else:
-        print("Bot: Tôi không hiểu ý bạn")
-        return _oneclick()
+# def _oneclick():
+#     print("Bot: Bạn có muốn chọn ô này không?")
+#     text = get_text()
+#     if "có" in text:
+#         return True
+#     elif "không" in text:
+#         return False
+#     else:
+#         print("Bot: Tôi không hiểu ý bạn")
+#         return _oneclick()
     
-def fill_text():
-    print("Bot: Hãy cho tôi nội dung bạn muốn nhập vào ô")
-    text = get_text()
-    print(text)
-    return text
+# def fill_text():
+#     print("Bot: Hãy cho tôi nội dung bạn muốn nhập vào ô")
+#     text = get_text()
+#     print(text)
+#     return text
 
 
 def handle_text(text,mouse_grid,root,grid_size):
     print(text)
-    if "di chuyển" in text or "chọn ô" in text or "chọn số" in text or "chọn ô số" in text:
+    if "di chuyển" in text or "chọn ô" in text or "chọn số" in text or "chọn ô số" in text or "chọn o" in text or "ô" in text.split() or "o" in text.split():
         try:
             cell_number = get_number(text)
             if (cell_number < 1 or cell_number > grid_size * grid_size):
-                speak("tôi không nghe rõ ô bạn muốn chọn, hãy thử lại")
+                speak("tôi không nghe rõ ô bạn muốn chọn.")
                 root.destroy()
                 return 0
 
@@ -288,7 +288,7 @@ if __name__ == "__main__":
         # root.update_idletasks()
         # root.mainloop()
 
-        text = get_text()
+        text = get_text(check)
         check_redraw = handle_text(text,mouse_grid,root,grid_size)
 
         if check_redraw == -1:

@@ -23,8 +23,9 @@ import pyttsx3
 import pygame
 import winsound
 import json
+
 frequency = 1500  # Set Frequency To 2500 Hertz
-duration = 250  # Set Duration To 1000 ms == 1 second
+duration = 250  # Set Duration To 250 ms == 0.25 second
 wikipedia.set_lang("vi")
 language = 'vi'
 path = ChromeDriverManager().install()
@@ -47,13 +48,16 @@ def speak(text):
     os.remove("sound.mp3")
     pygame.quit()
 
-def get_audio():
+def get_audio(check):
     r = sr.Recognizer()
+    if check == True:
+        winsound.Beep(frequency, duration)
+    # winsound.Beep(frequency, duration)
+    import time
+    time.sleep(1)
     print("Tôi: ",end='')
     with sr.Microphone() as source:
-        winsound.Beep(frequency, duration)
-        winsound.Beep(frequency, duration)
-        audio = r.listen(source,phrase_time_limit=2)
+        audio = r.listen(source,phrase_time_limit=3)
         try:
             text = r.recognize_google(audio,language="vi-VN")
             # print(text)
@@ -89,25 +93,25 @@ def get_number(text):
     else:
         return -1
 
-def get_text():
+def get_text(check):
     for i in range(20):
-        text = get_audio()
+        text = get_audio(check)
         if text:
             return text.lower()
-        if i < 2:
-            speak("Tôi không nghe rõ bạn nói, bạn nói lại được không?")
+        if i < 5 and check == True:
+            speak("Tôi không nghe rõ bạn nói.")
     time.sleep(2)
-    stop()
+    # stop()
     return 0
 
 def current_weather():
     speak("Bạn muốn xem thời tiết ở đâu ạ.")
     ow_url = "http://api.openweathermap.org/data/2.5/weather?"
-    # city = get_text()
-    city = "hà nội"
-    print(f"Toi: {city}")
-    if not city:
-        pass
+    city = get_text()
+    # city = "hà nội"
+    # print(f"Toi: {city}")
+    # if not city:
+    #     pass
     # api_key = "fe8d8c65cf345889139d8e545f57819a"
     api_key = "ce7491f834dcb997dc573482d7837bba"
     call_url = ow_url + "appid=" + api_key + "&q=" + city + "&units=metric"
@@ -235,9 +239,9 @@ def open_application(text):
     else:
         speak("Ứng dụng bạn muốn mở không có trong danh sách")
 
-if __name__ == "__main__":
-    # text = "mở word"
-    # open_application(text)
-    # text = ""
-    # get_time(text)
-    current_weather()
+# if __name__ == "__main__":
+#     # text = "mở word"
+#     # open_application(text)
+#     # text = ""
+#     # get_time(text)
+#     current_weather()
