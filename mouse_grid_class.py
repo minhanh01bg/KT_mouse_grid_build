@@ -46,7 +46,7 @@ class Mouse_Grid:
             for j in range(self.grid_size):
                 x = i * self.new_grid_x + self.location_x
                 y = j * self.new_grid_y + self.location_y
-                self.draw.rectangle((x, y, x + self.new_grid_x, y + self.new_grid_y), outline=(0, 0, 0, 255),width=2)
+                self.draw.rectangle((x, y, x + self.new_grid_x, y + self.new_grid_y), outline=(0, 0, 0, 255),width=1)
                 self.draw.text((x, y), str(j * self.grid_size + i + 1), fill=(0, 0, 0, 255), font=ImageFont.truetype("arial.ttf", 40))
         # return 0,0
     def draw_box(self):

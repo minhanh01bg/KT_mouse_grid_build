@@ -1,3 +1,4 @@
+import speech_to_text
 import pyautogui
 from PIL import Image,ImageDraw,ImageTk,ImageFont
 import tkinter as tk

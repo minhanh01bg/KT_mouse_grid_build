@@ -33,20 +33,26 @@ path = ChromeDriverManager().install()
 
 def speak(text):
     print("Bot: {}".format(text))
-    tts = gTTS(text=text,lang = language,slow=False)
-    tts.save("sound.mp3")
+    tts = gTTS(text=text,lang = language,slow=False,tld="com")
+    # exe_dir = os.path.dirname(sys.argv[0])
+    # sound_file = os.path.join(exe_dir, "sound.mp3")
+    sound_file = "sound.mp3"
+    tts.save(sound_file)
 
     pygame.init()
 
-    sound_file = "sound.mp3"
+    # sound_file = sound_file
     sound = pygame.mixer.Sound(sound_file)
 
     sound.play()
 
     while pygame.mixer.get_busy():
         pygame.time.wait(100)
-    os.remove("sound.mp3")
+    os.remove(sound_file)
     pygame.quit()
+
+
+
 
 def get_audio(check):
     r = sr.Recognizer()
@@ -239,9 +245,10 @@ def open_application(text):
     else:
         speak("Ứng dụng bạn muốn mở không có trong danh sách")
 
-# if __name__ == "__main__":
-#     # text = "mở word"
-#     # open_application(text)
-#     # text = ""
-#     # get_time(text)
-#     current_weather()
+if __name__ == "__main__":
+    # text = "mở word"
+    # open_application(text)
+    # text = ""
+    # get_time(text)
+    # current_weather()
+    speak("xin chào bạn")
