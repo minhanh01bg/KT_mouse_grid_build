@@ -1,4 +1,4 @@
 pyinstaller --add-data "sound.mp3;./" --distpath ./build --onefile -w main.py --name VirtualAssistant --specpath ./build 
 python setup.py build 
 python -m nuitka --standalone --output-dir=build setup.py
-pyinstaller --onedir --add-data libcrypto-1_1-x64.dll;. --add-data libssl-1_1-x64.dll;. main.py --name VirtualAssistant --specpath ./build --distpath ./build
+pyinstaller --onefile -w --add-data libcrypto-1_1-x64.dll;./ --add-data libssl-1_1-x64.dll;./ main.py --name VirtualAssistant --add-data "sound.mp3;./" --distpath ./build --specpath ./build

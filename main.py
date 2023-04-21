@@ -1,65 +1,16 @@
-import speech_to_text
+# import speech_to_text
 import pyautogui
 from PIL import Image,ImageDraw,ImageTk,ImageFont
 import tkinter as tk
-from pynput import keyboard
 from pynput.keyboard import Key,Controller
 from speech_to_text import get_audio, speak, get_text, get_number, play_music, read_news, get_time, open_application, current_weather, read_news1,weather,get_time1
-import os
-import playsound
-import speech_recognition as sr
-import time 
-import sys 
-import ctypes
-import wikipedia
-import datetime
-import json
 import re 
-import webbrowser
-import smtplib
-import requests
-import urllib
-import urllib.request as urllib2
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from webdriver_manager.chrome import ChromeDriverManager
-from time import strftime
-from gtts import gTTS
-from youtube_search import YoutubeSearch
 from mouse_grid_class import Mouse_Grid
 import Type_write_vietnamese
 import re
 
 def extract_numbers(str):
     return re.findall('\d+', str)
-
-
-# def speech_number():
-#     print("Bot: Hãy cho tôi số của ô bạn muốn chọn")
-#     text = get_text()
-#     print(text)
-#     number = get_number(text)
-#     if number == -1:
-#         print("Bot: Không có số này")
-#         return speech_number()
-#     return number
-
-# def _oneclick():
-#     print("Bot: Bạn có muốn chọn ô này không?")
-#     text = get_text()
-#     if "có" in text:
-#         return True
-#     elif "không" in text:
-#         return False
-#     else:
-#         print("Bot: Tôi không hiểu ý bạn")
-#         return _oneclick()
-    
-# def fill_text():
-#     print("Bot: Hãy cho tôi nội dung bạn muốn nhập vào ô")
-#     text = get_text()
-#     print(text)
-#     return text
 
 
 def handle_text(text,mouse_grid,root,grid_size):
@@ -257,7 +208,7 @@ def handle_text(text,mouse_grid,root,grid_size):
     elif "thoát" in text:
         root.destroy()
         raise SystemExit(0)
-    
+    root.destroy()
     return -2
 
 if __name__ == "__main__":
@@ -302,7 +253,10 @@ if __name__ == "__main__":
 
         if check_redraw == -2:
             speak("Tôi không hiểu ý bạn")
-            root.destroy()
+            try:
+                root.destroy()
+            except:
+                pass
             # break
         
 

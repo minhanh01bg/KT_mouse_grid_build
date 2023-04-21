@@ -1,29 +1,7 @@
 import pyautogui
 from PIL import Image,ImageDraw,ImageTk,ImageFont
 import tkinter as tk
-from pynput import keyboard
 from speech_to_text import get_audio, speak, get_text, get_number
-import os
-import playsound
-import speech_recognition as sr
-import time 
-import sys 
-import ctypes
-import wikipedia
-import datetime
-import json
-import re 
-import webbrowser
-import smtplib
-import requests
-import urllib
-import urllib.request as urllib2
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from webdriver_manager.chrome import ChromeDriverManager
-from time import strftime
-from gtts import gTTS
-from youtube_search import YoutubeSearch
 
 class Mouse_Grid:
     def __init__(self, grid_size):
@@ -91,21 +69,6 @@ class Mouse_Grid:
         # self.root.mainloop()
 
 
-# class MyGUI:
-#     def __init__(self,mouse_grid):
-#         self.root = tk.Tk()
-#         self.root.title("Mouse_Grid_draft")
-#         self.photo = ImageTk.PhotoImage(mouse_grid.img)
-#         self.label = tk.Label(self.root, image=self.photo)
-#         self.label.place(x=0, y=0)
-#         self.root.geometry("%dx%d+%d+%d" % (mouse_grid.img.size[0], mouse_grid.img.size[1], 0, 0))
-#         self.root.attributes('-fullscreen', True)
-#         self.root.attributes('-alpha', 0.3)
-#         self.close_button = tk.Button(self.root, text="Close", command=self.root.destroy)
-#         self.close_button.pack()
-#         self.root.deiconify()
-#         self.root.update()
-
 def speech_number():
     print("Bot: Hãy cho tôi số của ô bạn muốn chọn")
     text = get_text()
@@ -133,62 +96,3 @@ def fill_text():
     print(text)
     return text
 
-if __name__ == "__main__":
-    grid_size = 3
-    mouse_grid = Mouse_Grid(grid_size)
-    # mouse_grid.draw_grid()
-    while True:
-        # mouse_grid.display_grid()
-        root = tk.Tk()
-        root.title("Mouse_Grid_draft")
-        photo = ImageTk.PhotoImage(mouse_grid.img)
-        label = tk.Label(root, image=photo)
-        label.place(x=0, y=0)
-        root.geometry("%dx%d+%d+%d" % (mouse_grid.img.size[0], mouse_grid.img.size[1], 0, 0))
-        root.attributes('-fullscreen', True)
-        root.attributes('-alpha', 0.2)
-        close_button = tk.Button(root, text="Close", command=root.destroy)
-        close_button.pack()
-        # import time
-        # time.sleep(10)
-        root.deiconify()
-        root.update()
-        # cell_number = int(input("Enter the cell number: "))
-
-        cell_number = speech_number()
-
-        if (cell_number < 1 or cell_number > grid_size * grid_size):
-            print("Invalid cell number")
-            break
-
-        x = (cell_number - 1) % grid_size
-        y = (cell_number - 1) // grid_size
-        print("x: ", x, "y: ", y)
-
-        mouse_grid.update_location(x, y)
-        # print("location_x: ", mouse_grid.location_x, "location_y: ", mouse_grid.location_y)
-        target_x = x * mouse_grid.new_grid_x + mouse_grid.new_grid_x // 2 + mouse_grid.old_x
-        target_y = y * mouse_grid.new_grid_y + mouse_grid.new_grid_y // 2 + mouse_grid.old_y
-        pyautogui.moveTo(target_x, target_y, duration=0.25)
-        # check_onclick = int(input("Enter 1 to click: "))
-        
-        check_onclick = _oneclick()
-        if (check_onclick == 1):
-            root.destroy()
-            pyautogui.click(target_x, target_y, clicks=1, interval=0.0, button='left')
-            text = fill_text()
-            pyautogui.typewrite(text)
-            # pyautogui.click()
-            mouse_grid = Mouse_Grid(grid_size)
-            check_onclick = 1
-        
-        if check_onclick == 0:
-            # print("target_x: ", target_x, "target_y: ", target_y)
-            new_x,new_y = mouse_grid.draw_box()
-            # mouse_grid.compute_new_grid()
-            # print("new_grid_x: ", mouse_grid.new_grid_x, "new_grid_y: ", mouse_grid.new_grid_y)
-            mouse_grid.old_x = mouse_grid.location_x
-            mouse_grid.old_y = mouse_grid.location_y
-            root.destroy()
-            root.mainloop()
-        

@@ -1,41 +1,27 @@
 import os
-import playsound
 import speech_recognition as sr
 import time 
-import sys 
-import ctypes
 import wikipedia
 import datetime
 import json
-import re 
 import webbrowser
-import smtplib
 import requests
-import urllib
-import urllib.request as urllib2
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from webdriver_manager.chrome import ChromeDriverManager
-from time import strftime
 from gtts import gTTS
 from youtube_search import YoutubeSearch
-import pyttsx3
 import pygame
 import winsound
 import json
 
 frequency = 1500  # Set Frequency To 2500 Hertz
-duration = 250  # Set Duration To 250 ms == 0.25 second
+duration = 350  # Set Duration To 250 ms == 0.25 second
 wikipedia.set_lang("vi")
 language = 'vi'
-path = ChromeDriverManager().install()
+# path = ChromeDriverManager().install()
 
 
 def speak(text):
     print("Bot: {}".format(text))
     tts = gTTS(text=text,lang = language,slow=False,tld="com")
-    # exe_dir = os.path.dirname(sys.argv[0])
-    # sound_file = os.path.join(exe_dir, "sound.mp3")
     sound_file = "sound.mp3"
     tts.save(sound_file)
 
@@ -58,7 +44,6 @@ def get_audio(check):
     r = sr.Recognizer()
     if check == True:
         winsound.Beep(frequency, duration)
-    # winsound.Beep(frequency, duration)
     import time
     time.sleep(1)
     print("Tôi: ",end='')
@@ -75,7 +60,6 @@ def get_audio(check):
 
 def stop():
     speak("tạm biệt bạn")
-    # return SystemExit(0)
 
 def get_number(text):
     if "một" in text or "1" in text:
@@ -245,10 +229,5 @@ def open_application(text):
     else:
         speak("Ứng dụng bạn muốn mở không có trong danh sách")
 
-if __name__ == "__main__":
-    # text = "mở word"
-    # open_application(text)
-    # text = ""
-    # get_time(text)
-    # current_weather()
-    speak("xin chào bạn")
+# if __name__ == "__main__":
+#     winsound.Beep(frequency, duration)
