@@ -70,7 +70,7 @@ python main.py
 - Khi chạy ứng dụng sẽ hiện ra giao diện chính như sau:
 ![image](images/view.png)
 Người dùng có thể chọn một ô bất kì để di chuyển chuột đến chính giữa ô đó
-Các từ khóa để có thể bắt được hành động | di chuyển đến ô ..., chọn ô ... 
+Các từ khóa để có thể bắt được hành động | `di chuyển đến ô ...`, `chọn ô ...`
 - Khi chọn được một ô thì chuột sẽ di chuyển đến ô đó và giao diện tiếp tục vẽ thêm chín ô mới trong ô đó như sau:
 ![image](images/view2.png)
 - Để chọn click chuột vào vị trí vừa di chuyển đến, người dùng có thể nói từ khóa "click" hoặc "chọn" để thực hiện hành động click chuột. <br>
