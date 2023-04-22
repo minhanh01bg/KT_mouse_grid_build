@@ -111,6 +111,7 @@ def speech_number():
     return number
 
 def _oneclick():
+    return False
     print("Bot: Bạn có muốn chọn ô này không?")
     text = get_text()
     if "có" in text:
@@ -147,9 +148,9 @@ if __name__ == "__main__":
         # time.sleep(10)
         root.deiconify()
         root.update()
-        # cell_number = int(input("Enter the cell number: "))
+        cell_number = int(input("Enter the cell number: "))
 
-        cell_number = speech_number()
+        # cell_number = speech_number()
 
         if (cell_number < 1 or cell_number > grid_size * grid_size):
             print("Invalid cell number")

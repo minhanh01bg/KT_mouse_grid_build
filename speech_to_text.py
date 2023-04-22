@@ -70,7 +70,7 @@ def get_number(text):
         return 3
     elif "bốn" in text or "4" in text:
         return 4
-    elif "năm" in text or "5" in text:
+    elif "năm" in text or "5" in text or "nam" in text:
         return 5
     elif "sáu" in text or "6" in text:
         return 6
@@ -84,7 +84,7 @@ def get_number(text):
         return -1
 
 def get_text(check):
-    for i in range(20):
+    for i in range(2000000):
         text = get_audio(check)
         if text:
             return text.lower()
@@ -94,10 +94,10 @@ def get_text(check):
     # stop()
     return 0
 
-def current_weather():
+def current_weather(check):
     speak("Bạn muốn xem thời tiết ở đâu ạ.")
     ow_url = "http://api.openweathermap.org/data/2.5/weather?"
-    city = get_text()
+    city = get_text(check)
     # city = "hà nội"
     # print(f"Toi: {city}")
     # if not city:
@@ -154,16 +154,16 @@ def current_weather():
     else:
         speak("Không tìm thấy địa chỉ của bạn")
 
-def weather():
+def weather(check):
     speak("bạn muốn xem thời tiết ở đâu.")
-    text = get_text()
+    text = get_text(check)
     url = f"https://nchmf.gov.vn/kttvSite/vi-VN/1/Search.html?s={text}&pageindex=1"
     webbrowser.open(url)
     speak(f"bạn đang xem thời tiết ở {text}")
 
-def play_music():
+def play_music(check):
     speak("bạn muốn nghe bài hát gì ạ.")
-    mysong = get_text()
+    mysong = get_text(check)
     print(f"{mysong}")
     while True:
         result = YoutubeSearch(mysong, max_results=10).to_dict()
@@ -174,10 +174,10 @@ def play_music():
     webbrowser.open(url)
     print("Đang phát bài hát " + mysong)
 
-def read_news():
+def read_news(check):
     print("Bạn muốn đọc báo về gì")
     
-    queue = get_text()
+    queue = get_text(check)
     print(f"Toi: {queue}")
     params = {
         # 'apiKey': '30d02d187f7140faacf9ccd27a1441ad',
@@ -193,10 +193,10 @@ def read_news():
         if number <= 3:
             webbrowser.open(result['url'])
 
-def read_news1():
+def read_news1(check):
     speak("bạn muốn đọc báo về gì")
     
-    queue = get_text()
+    queue = get_text(check)
 
     print(f"{queue}")
     url = f"https://thanhnien.vn/tim-kiem.htm?keywords={queue}"
@@ -230,4 +230,4 @@ def open_application(text):
         speak("Ứng dụng bạn muốn mở không có trong danh sách")
 
 # if __name__ == "__main__":
-#     winsound.Beep(frequency, duration)
+#     play_music()
