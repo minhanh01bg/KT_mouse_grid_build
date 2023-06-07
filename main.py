@@ -8,7 +8,7 @@ import re
 from mouse_grid_class import Mouse_Grid
 import Type_write_vietnamese
 import re
-
+import subprocess
 def extract_numbers(str):
     return re.findall('\d+', str)
 
@@ -184,6 +184,24 @@ def handle_text(text,mouse_grid,root,grid_size,check):
     elif "thời gian" in text or "mấy giờ" in text or "giờ" in text or "ngày" in text or "tháng" in text or "năm" in text:
         root.destroy()
         get_time(text)
+        return 0
+    # open keyboard
+    elif "mở bàn phím" in text or ( "bàn phím" in text and "đóng" not in text):
+        root.destroy()
+        subprocess.Popen("C:\Windows\System32\osk.exe", shell=True)
+        return 0
+    # close keyboard
+    elif "đóng bàn phím" in text:
+        root.destroy()
+        import psutil
+        # Tìm các tiến trình đang chạy và đóng tiến trình của ứng dụng bàn phím
+        for process in psutil.process_iter():
+            try:
+                if process.name() == "osk.exe":
+                    process.kill()
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                pass
+
         return 0
     # open application
     elif "mở" in text:

@@ -1,25 +1,30 @@
 {
-    "move": [
-        "di chuyển",
+    "di chuyển một": [
+        "di chuyển đến ô một",
+        "di chuyển đến ô số một",
+        "di chuyển đến ô số 1",
+        "di chuyển đến ô 1",
         "chọn ô",
         "chọn o",
         "chọn ô số",
         "chọn o số"
     ],
-    "clickleft":[
+    "chuột trái":[
         "chọn chuột trái",
+        "bấm chuột trái",
         "click chuột trái"
     ],
-    "clickright":[
+    "chuột phải":[
         "chọn chuột phải",
-        "click chuột phải"
+        "bấm chuột phải",
+        "chuột phải"
     ],
     "doubleClick":[
         "double click",
         "double click chuột trái",
         "click chuột"
     ],
-    "up":[
+    "lên":[
         "lên",
         "cuộn lên",
         "cuộn lên trên",
@@ -28,7 +33,7 @@
         "cuộn lên trên trang web",
         "lên trên"
     ],
-    "down":[
+    "xuống":[
         "xuống",
         "cuộn xuống",
         "cuộn xuống dưới",
@@ -37,11 +42,14 @@
         "cuộn xuống dưới trang web",
         "xuống dưới"
     ],
-    "fill":[
-        "điền",
+    "điền":[
+        "điền vào ô trống",
         "điền vào",
         "nhập",
-        "nhập vào"
+        "nhập vào",
+        "điền vào ô",
+        "nhập vào ô trống",
+        "điền"
     ],
     "back":[
         "quay lại",
