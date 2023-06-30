@@ -14,6 +14,7 @@ import json
 
 frequency = 1500  # Set Frequency To 2500 Hertz
 duration = 450  # Set Duration To 250 ms == 0.25 second
+
 wikipedia.set_lang("vi")
 language = 'vi'
 # path = ChromeDriverManager().install()
@@ -48,8 +49,8 @@ def get_audio(check):
     with sr.Microphone() as source:
         audio = r.listen(source,phrase_time_limit=3)
         # save audio file to mp3
-        # with open("./data/audio.mp3", "wb") as f:
-        #     f.write(audio.get_wav_data())
+        with open("./data/audio.mp3", "wb") as f:
+            f.write(audio.get_wav_data())
         try:
             text = r.recognize_google(audio,language="vi-VN")
             # print(text)
